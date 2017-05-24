@@ -1,4 +1,4 @@
-Nette Breadcrumb forked from [DavidZadrazil/nette-breadcrumb-bootstrap](https://github.com/DavidZadrazil/nette-breadcrumb-bootstrap)
+Nette Breadcrumb
 ===========================================
 
 Simple [Nette](http://nette.org) component creating Breadcrumb navigation.
@@ -45,6 +45,7 @@ use BreadCrumb;
 
 public function createComponentBreadCrumb(BreadCrumb $breadcrumb)
 {
+    $breadCrumb->setTemplatePath(__DIR__ . '/templates/breadcrumbs.latte');
     $breadcrumb->addLink('link', 'Homepage:', 'icon-homepage');
     return $breadcrumb;
 }
