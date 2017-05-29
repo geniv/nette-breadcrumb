@@ -15,7 +15,7 @@ class BreadCrumb extends Control
     private $links = [];
     /** @var string template path */
     private $templatePath;
-    /** @var ITranslator */
+    /** @var ITranslator|null */
     private $translator;
 
 
