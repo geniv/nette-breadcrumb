@@ -47,7 +47,7 @@ class BreadCrumb extends Control
 
 
     /**
-     * Render component.
+     * Render default.
      */
     public function render()
     {
