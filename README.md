@@ -31,22 +31,10 @@ usage:
 ```php
 use BreadCrumb;
 
-protected function createComponentBreadCrumb()
-{
-    $breadCrumb = new BreadCrumb();
-    // $breadCrumb->setTemplatePath(__DIR__ . '/templates/breadcrumbs.latte');
-    $breadCrumb->addLink('Main page', 'Homepage:', 'icon-homepage');
-    return $breadCrumb;
-}
-```
-or use with Autowire (eg. geniv/nette-autowired)
-```php
-use BreadCrumb;
-
 public function createComponentBreadCrumb(BreadCrumb $breadcrumb)
 {
     $breadcrumb->setTemplatePath(__DIR__ . '/templates/breadcrumbs.latte');
-    // $breadcrumb->addLink('link', 'Homepage:', 'icon-homepage');
+    // $breadcrumb->addLink('link', 'Homepage:', 'icon-homepage');  // default breadcrumb
     return $breadcrumb;
 }
 ```
@@ -56,14 +44,14 @@ presenters:
 // add link
 $this['breadCrumb']->addLink('Sub page');
 ```
-or
+or update
 ```php
 // edit link
 $this['breadCrumb']->editLink('Sub page', 'User:', 'fa fa-dashboard')
 // link with parameters
 $this['breadCrumb']->editLink('Sub page', ['User:', 123, 321], 'fa fa-dashboard')
 ```
-or
+or remove
 ```php
 // remove
 $this['breadCrumb']->removeLink('Sub page');
