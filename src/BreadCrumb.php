@@ -29,7 +29,7 @@ class BreadCrumb extends Control
         parent::__construct();
 
         $this->translator = $translator;
-        $this->templatePath = __DIR__ . '/BreadCrumb.latte';    // implcitni cesta
+        $this->templatePath = __DIR__ . '/BreadCrumb.latte';    // default path
     }
 
 
