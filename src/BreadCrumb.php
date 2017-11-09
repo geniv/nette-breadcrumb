@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use Nette\Localization\ITranslator;
 use Nette\Application\UI\Control;
@@ -37,9 +37,9 @@ class BreadCrumb extends Control
      * Set template path.
      *
      * @param string $path
-     * @return $this
+     * @return BreadCrumb
      */
-    public function setTemplatePath($path)
+    public function setTemplatePath(string $path): self
     {
         $this->templatePath = $path;
         return $this;
@@ -64,12 +64,12 @@ class BreadCrumb extends Control
     /**
      * Add link.
      *
-     * @param string            $title
-     * @param null|string|array $link
-     * @param null              $icon
-     * @return $this
+     * @param string $title
+     * @param null   $link
+     * @param null   $icon
+     * @return BreadCrumb
      */
-    public function addLink($title, $link = null, $icon = null)
+    public function addLink(string $title, $link = null, $icon = null): self
     {
         $this->links[md5($title)] = [
             'title'    => $title,
@@ -82,12 +82,30 @@ class BreadCrumb extends Control
 
 
     /**
+     * Edit link.
+     *
+     * @param string $title
+     * @param null   $link
+     * @param null   $icon
+     * @return BreadCrumb
+     */
+    public function editLink(string $title, $link = null, $icon = null): self
+    {
+        if (array_key_exists(md5($title), $this->links)) {
+            $this->addLink($title, $link, $icon);
+        }
+        return $this;
+    }
+
+
+    /**
      * Remove link.
      *
      * @param string $key
+     * @return BreadCrumb
      * @throws Exception
      */
-    public function removeLink($key)
+    public function removeLink(string $key): self
     {
         $key = md5($key);
         if (array_key_exists($key, $this->links)) {
@@ -95,20 +113,6 @@ class BreadCrumb extends Control
         } else {
             throw new Exception('Key does not exist.');
         }
-    }
-
-
-    /**
-     * Edit link.
-     *
-     * @param string            $title
-     * @param null|string|array $link
-     * @param null|string       $icon
-     */
-    public function editLink($title, $link = null, $icon = null)
-    {
-        if (array_key_exists(md5($title), $this->links)) {
-            $this->addLink($title, $link, $icon);
-        }
+        return $this;
     }
 }

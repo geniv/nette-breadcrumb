@@ -1,9 +1,9 @@
 Breadcrumb
 ==========
+Breadcrumb navigation
 
 Installation
 ------------
-
 ```sh
 $ composer require geniv/nette-breadcrumb
 ```
@@ -14,13 +14,12 @@ or
 
 require:
 ```json
-"php": ">=5.6.0",
+"php": ">=7.0.0",
 "nette/nette": ">=2.3.0"
 ```
 
 Include in application
 ----------------------
-
 neon configure:
 ```neon
 services:
@@ -31,9 +30,9 @@ usage:
 ```php
 use BreadCrumb;
 
-public function createComponentBreadCrumb(BreadCrumb $breadcrumb)
+protected function createComponentBreadCrumb(BreadCrumb $breadCrumb): BreadCrumb
 {
-    $breadcrumb->setTemplatePath(__DIR__ . '/templates/breadcrumbs.latte');
+    //$breadcrumb->setTemplatePath(__DIR__ . '/templates/BreadCrumb.latte');
     // $breadcrumb->addLink('link', 'Homepage:', 'icon-homepage');  // default breadcrumb
     return $breadcrumb;
 }
@@ -57,7 +56,7 @@ or remove
 $this['breadCrumb']->removeLink('Sub page');
 ```
 
-latte:
+usage:
 ```latte
 {control breadCrumb}
 ```
