@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 use Nette\Localization\ITranslator;
 use Nette\Application\UI\Control;
@@ -29,7 +29,8 @@ class BreadCrumb extends Control
         parent::__construct();
 
         $this->translator = $translator;
-        $this->templatePath = __DIR__ . '/BreadCrumb.latte';    // default path
+
+        $this->templatePath = __DIR__ . '/BreadCrumb.latte';    // implicit path
     }
 
 
@@ -37,9 +38,9 @@ class BreadCrumb extends Control
      * Set template path.
      *
      * @param string $path
-     * @return BreadCrumb
+     * @return $this
      */
-    public function setTemplatePath(string $path): self
+    public function setTemplatePath(string $path)
     {
         $this->templatePath = $path;
         return $this;
@@ -47,7 +48,7 @@ class BreadCrumb extends Control
 
 
     /**
-     * Render default.
+     * Render.
      */
     public function render()
     {
@@ -67,9 +68,9 @@ class BreadCrumb extends Control
      * @param string $title
      * @param null   $link
      * @param null   $icon
-     * @return BreadCrumb
+     * @return $this
      */
-    public function addLink(string $title, $link = null, $icon = null): self
+    public function addLink(string $title, $link = null, $icon = null)
     {
         $this->links[md5($title)] = [
             'title'    => $title,
@@ -87,9 +88,9 @@ class BreadCrumb extends Control
      * @param string $title
      * @param null   $link
      * @param null   $icon
-     * @return BreadCrumb
+     * @return $this
      */
-    public function editLink(string $title, $link = null, $icon = null): self
+    public function editLink(string $title, $link = null, $icon = null)
     {
         if (array_key_exists(md5($title), $this->links)) {
             $this->addLink($title, $link, $icon);
@@ -102,10 +103,10 @@ class BreadCrumb extends Control
      * Remove link.
      *
      * @param string $key
-     * @return BreadCrumb
+     * @return $this
      * @throws Exception
      */
-    public function removeLink(string $key): self
+    public function removeLink(string $key)
     {
         $key = md5($key);
         if (array_key_exists($key, $this->links)) {
