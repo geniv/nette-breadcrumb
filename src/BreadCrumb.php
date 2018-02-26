@@ -31,7 +31,7 @@ class BreadCrumb extends Control implements ITemplatePath
 
         $this->translator = $translator;
 
-        $this->templatePath = __DIR__ . '/BreadCrumb.latte';    // implicit path
+        $this->templatePath = __DIR__ . '/BreadCrumb.latte';    // path
     }
 
 
@@ -75,8 +75,8 @@ class BreadCrumb extends Control implements ITemplatePath
     {
         $this->links[md5($key)] = [
             'title'    => $title,
-            'link'     => (is_array($link) ? $link[0] : $link),   // moznost ukladani linky s parametry
-            'linkArgv' => (is_array($link) ? array_slice($link, 1) : []),   // rozsirujici parametry odkazu
+            'link'     => ($link[0] ?? null),   // give zero index
+            'linkArgv' => array_slice($link, 1),   // slice array from index 1
             'icon'     => $icon,
         ];
         return $this;
