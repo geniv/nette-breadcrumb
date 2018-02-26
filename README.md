@@ -1,6 +1,5 @@
 Breadcrumb
 ==========
-Breadcrumb navigation
 
 Installation
 ------------
@@ -14,8 +13,9 @@ or
 
 require:
 ```json
-"php": ">=5.6.0",
-"nette/nette": ">=2.4.0"
+"php": ">=7.0.0",
+"nette/nette": ">=2.4.0",
+"geniv/nette-general-form": ">=1.0.0"
 ```
 
 Include in application
@@ -33,7 +33,7 @@ use BreadCrumb;
 protected function createComponentBreadCrumb(BreadCrumb $breadCrumb): BreadCrumb
 {
     // $breadcrumb->setTemplatePath(__DIR__ . '/templates/BreadCrumb.latte');
-    // $breadcrumb->addLink('link', 'Homepage:', 'icon-homepage');  // default breadcrumb
+    // $breadcrumb->addLink('link', ['Homepage:'], 'icon-homepage');  // default breadcrumb
     return $breadcrumb;
 }
 ```
@@ -43,18 +43,23 @@ presenters:
 // add link
 $this['breadCrumb']->addLink('Sub page');
 // or
-$this['breadCrumb']->addLink('Sub page', 'User:')
+$this['breadCrumb']->addLink('Sub page', ['User:'])
 // link with parameters
 $this['breadCrumb']->addLink('Sub page', ['User:', 123, 321])
 or
 $this['breadCrumb']->addLink('Sub page', ['User:', 123, 321], 'fa fa-dashboard')
+
+direct transalte title
+$this['breadCrumb']->addTranslateLink('Sub page');
 ```
 or update
 ```php
 // edit link
-$this['breadCrumb']->editLink('Sub page', 'User:', 'fa fa-dashboard')
+$this['breadCrumb']->editLink('Sub page', ['User:'], 'fa fa-dashboard')
 // link with parameters
 $this['breadCrumb']->editLink('Sub page', ['User:', 123, 321], 'fa fa-dashboard')
+direct transalte title
+$this['breadCrumb']->editTranslateLink('Sub page');
 ```
 or remove
 ```php
