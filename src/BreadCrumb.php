@@ -1,5 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
+use GeneralForm\ITemplatePath;
 use Nette\Localization\ITranslator;
 use Nette\Application\UI\Control;
 
@@ -9,11 +10,11 @@ use Nette\Application\UI\Control;
  *
  * @author geniv
  */
-class BreadCrumb extends Control
+class BreadCrumb extends Control implements ITemplatePath
 {
-    /** @var array links */
+    /** @var array */
     private $links = [];
-    /** @var string template path */
+    /** @var string */
     private $templatePath;
     /** @var ITranslator|null */
     private $translator;
@@ -38,12 +39,10 @@ class BreadCrumb extends Control
      * Set template path.
      *
      * @param string $path
-     * @return $this
      */
     public function setTemplatePath(string $path)
     {
         $this->templatePath = $path;
-        return $this;
     }
 
 
@@ -63,16 +62,18 @@ class BreadCrumb extends Control
 
 
     /**
-     * Add link.
+     * Add internal link.
      *
+     * @internal
+     * @param string $key
      * @param string $title
-     * @param null   $link
-     * @param null   $icon
-     * @return $this
+     * @param array  $link
+     * @param string $icon
+     * @return BreadCrumb
      */
-    public function addLink(string $title, $link = null, $icon = null)
+    private function addInternalLink(string $key, string $title, array $link, string $icon): self
     {
-        $this->links[md5($title)] = [
+        $this->links[md5($key)] = [
             'title'    => $title,
             'link'     => (is_array($link) ? $link[0] : $link),   // moznost ukladani linky s parametry
             'linkArgv' => (is_array($link) ? array_slice($link, 1) : []),   // rozsirujici parametry odkazu
@@ -83,17 +84,62 @@ class BreadCrumb extends Control
 
 
     /**
+     * Add link.
+     *
+     * @param string $title
+     * @param array  $link
+     * @param string $icon
+     * @return BreadCrumb
+     */
+    public function addLink(string $title, array $link = [], string $icon = ''): self
+    {
+        return $this->addInternalLink($title, $title, $link, $icon);
+    }
+
+
+    /**
      * Edit link.
      *
      * @param string $title
-     * @param null   $link
-     * @param null   $icon
-     * @return $this
+     * @param array  $link
+     * @param string $icon
+     * @return BreadCrumb
      */
-    public function editLink(string $title, $link = null, $icon = null)
+    public function editLink(string $title, array $link = [], string $icon = ''): self
     {
         if (array_key_exists(md5($title), $this->links)) {
-            $this->addLink($title, $link, $icon);
+            $this->addInternalLink($title, $title, $link, $icon);
+        }
+        return $this;
+    }
+
+
+    /**
+     * Add translate link.
+     *
+     * @param string $title
+     * @param array  $link
+     * @param string $icon
+     * @return BreadCrumb
+     */
+    public function addTranslateLink(string $title, array $link = [], string $icon = ''): self
+    {
+        return $this->addInternalLink($title, $this->translator->translate($title), $link, $icon);
+    }
+
+
+    /**
+     * Edit translate link.
+     *
+     * @param string $title
+     * @param array  $link
+     * @param string $icon
+     * @return BreadCrumb
+     */
+    public function editTranslateLink(string $title, array $link = [], string $icon = ''): self
+    {
+        if (array_key_exists(md5($title), $this->links)) {
+            $this->addInternalLink($title, $this->translator->translate($title), $link, $icon);
         }
         return $this;
     }
@@ -102,17 +148,17 @@ class BreadCrumb extends Control
     /**
      * Remove link.
      *
-     * @param string $key
-     * @return $this
+     * @param string $title
+     * @return BreadCrumb
      * @throws Exception
      */
-    public function removeLink(string $key)
+    public function removeLink(string $title): self
     {
-        $key = md5($key);
+        $key = md5($title);
         if (array_key_exists($key, $this->links)) {
             unset($this->links[$key]);
         } else {
-            throw new Exception('Key does not exist.');
+            throw new Exception('Title does not exist.');
         }
         return $this;
     }
